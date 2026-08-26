@@ -35,6 +35,7 @@
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/package": "^2.5.8",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@types/node": "^26.3.0",
 		"publint": "^0.3.21",
 		"svelte": "^5.56.1",
 		"svelte-check": "^4.6.0",
@@ -46,6 +47,8 @@
 	],
 	"dependencies": {
 		"mongodb": "^7.5.0",
-		"recipemealui": "file:../recipemealui-0.0.1.tgz"
+		"recipemealui": "file:../recipemealui-0.0.1.tgz",
+		"uuid": "^14.0.2",
+		"zod": "^4.4.3"
 	}
 }

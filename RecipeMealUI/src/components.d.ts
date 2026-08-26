@@ -5,20 +5,319 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { UiRecipeSummary } from "./type";
+import { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
+import { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
+import { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
+export { UiRecipeSummary } from "./type";
+export { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
+export { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
+export { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
 export namespace Components {
+    interface RecipeCard {
+        /**
+          * @default false
+         */
+        "favorite": boolean;
+        "recipe": UiRecipeSummary;
+        /**
+          * @default false
+         */
+        "showActions": boolean;
+        /**
+          * @default true
+         */
+        "showAuthor": boolean;
+    }
+    interface RecipeFilter {
+        /**
+          * @default ''
+         */
+        "area": string;
+        /**
+          * @default []
+         */
+        "areas": string[];
+        /**
+          * @default []
+         */
+        "categories": string[];
+        /**
+          * @default ''
+         */
+        "category": string;
+        /**
+          * @default true
+         */
+        "showMine": boolean;
+        /**
+          * @default 'all'
+         */
+        "source": RecipeFilterValue['source'];
+    }
+    interface RecipeGrid {
+        /**
+          * @default 'Try adjusting your search or filters.'
+         */
+        "emptyMessage": string;
+        /**
+          * Set of "source:id" strings that are currently favorited
+          * @default []
+         */
+        "favorites": string[];
+        /**
+          * @default false
+         */
+        "loading": boolean;
+        /**
+          * @default []
+         */
+        "recipes": UiRecipeSummary[];
+        /**
+          * @default false
+         */
+        "showActions": boolean;
+    }
+    interface RecipeSearch {
+        /**
+          * @default 350
+         */
+        "debounce": number;
+        /**
+          * @default 'Search recipes…'
+         */
+        "placeholder": string;
+        /**
+          * @default ''
+         */
+        "value": string;
+    }
+}
+export interface RecipeCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRecipeCardElement;
+}
+export interface RecipeFilterCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRecipeFilterElement;
+}
+export interface RecipeGridCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRecipeGridElement;
+}
+export interface RecipeSearchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRecipeSearchElement;
 }
 declare global {
+    interface HTMLRecipeCardElementEventMap {
+        "recipe-click": RecipeClickDetail;
+        "favorite-toggle": FavoriteToggleDetail;
+        "recipe-edit": RecipeClickDetail;
+        "recipe-delete": RecipeClickDetail;
+    }
+    interface HTMLRecipeCardElement extends Components.RecipeCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRecipeCardElementEventMap>(type: K, listener: (this: HTMLRecipeCardElement, ev: RecipeCardCustomEvent<HTMLRecipeCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRecipeCardElementEventMap>(type: K, listener: (this: HTMLRecipeCardElement, ev: RecipeCardCustomEvent<HTMLRecipeCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRecipeCardElement: {
+        prototype: HTMLRecipeCardElement;
+        new (): HTMLRecipeCardElement;
+    };
+    interface HTMLRecipeFilterElementEventMap {
+        "filter-change": RecipeFilterValue;
+    }
+    interface HTMLRecipeFilterElement extends Components.RecipeFilter, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRecipeFilterElementEventMap>(type: K, listener: (this: HTMLRecipeFilterElement, ev: RecipeFilterCustomEvent<HTMLRecipeFilterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRecipeFilterElementEventMap>(type: K, listener: (this: HTMLRecipeFilterElement, ev: RecipeFilterCustomEvent<HTMLRecipeFilterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRecipeFilterElement: {
+        prototype: HTMLRecipeFilterElement;
+        new (): HTMLRecipeFilterElement;
+    };
+    interface HTMLRecipeGridElementEventMap {
+        "recipe-click": RecipeClickDetail1;
+        "favorite-toggle": FavoriteToggleDetail1;
+        "recipe-edit": RecipeClickDetail1;
+        "recipe-delete": RecipeClickDetail1;
+    }
+    interface HTMLRecipeGridElement extends Components.RecipeGrid, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRecipeGridElementEventMap>(type: K, listener: (this: HTMLRecipeGridElement, ev: RecipeGridCustomEvent<HTMLRecipeGridElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRecipeGridElementEventMap>(type: K, listener: (this: HTMLRecipeGridElement, ev: RecipeGridCustomEvent<HTMLRecipeGridElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRecipeGridElement: {
+        prototype: HTMLRecipeGridElement;
+        new (): HTMLRecipeGridElement;
+    };
+    interface HTMLRecipeSearchElementEventMap {
+        "search": string;
+    }
+    interface HTMLRecipeSearchElement extends Components.RecipeSearch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRecipeSearchElementEventMap>(type: K, listener: (this: HTMLRecipeSearchElement, ev: RecipeSearchCustomEvent<HTMLRecipeSearchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRecipeSearchElementEventMap>(type: K, listener: (this: HTMLRecipeSearchElement, ev: RecipeSearchCustomEvent<HTMLRecipeSearchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRecipeSearchElement: {
+        prototype: HTMLRecipeSearchElement;
+        new (): HTMLRecipeSearchElement;
+    };
     interface HTMLElementTagNameMap {
+        "recipe-card": HTMLRecipeCardElement;
+        "recipe-filter": HTMLRecipeFilterElement;
+        "recipe-grid": HTMLRecipeGridElement;
+        "recipe-search": HTMLRecipeSearchElement;
     }
 }
 declare namespace LocalJSX {
+    interface RecipeCard {
+        /**
+          * @default false
+         */
+        "favorite"?: boolean;
+        "onFavorite-toggle"?: (event: RecipeCardCustomEvent<FavoriteToggleDetail>) => void;
+        "onRecipe-click"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
+        "onRecipe-delete"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
+        "onRecipe-edit"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
+        "recipe": UiRecipeSummary;
+        /**
+          * @default false
+         */
+        "showActions"?: boolean;
+        /**
+          * @default true
+         */
+        "showAuthor"?: boolean;
+    }
+    interface RecipeFilter {
+        /**
+          * @default ''
+         */
+        "area"?: string;
+        /**
+          * @default []
+         */
+        "areas"?: string[];
+        /**
+          * @default []
+         */
+        "categories"?: string[];
+        /**
+          * @default ''
+         */
+        "category"?: string;
+        "onFilter-change"?: (event: RecipeFilterCustomEvent<RecipeFilterValue>) => void;
+        /**
+          * @default true
+         */
+        "showMine"?: boolean;
+        /**
+          * @default 'all'
+         */
+        "source"?: RecipeFilterValue['source'];
+    }
+    interface RecipeGrid {
+        /**
+          * @default 'Try adjusting your search or filters.'
+         */
+        "emptyMessage"?: string;
+        /**
+          * Set of "source:id" strings that are currently favorited
+          * @default []
+         */
+        "favorites"?: string[];
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
+        "onFavorite-toggle"?: (event: RecipeGridCustomEvent<FavoriteToggleDetail1>) => void;
+        "onRecipe-click"?: (event: RecipeGridCustomEvent<RecipeClickDetail1>) => void;
+        "onRecipe-delete"?: (event: RecipeGridCustomEvent<RecipeClickDetail1>) => void;
+        "onRecipe-edit"?: (event: RecipeGridCustomEvent<RecipeClickDetail1>) => void;
+        /**
+          * @default []
+         */
+        "recipes"?: UiRecipeSummary[];
+        /**
+          * @default false
+         */
+        "showActions"?: boolean;
+    }
+    interface RecipeSearch {
+        /**
+          * @default 350
+         */
+        "debounce"?: number;
+        "onSearch"?: (event: RecipeSearchCustomEvent<string>) => void;
+        /**
+          * @default 'Search recipes…'
+         */
+        "placeholder"?: string;
+        /**
+          * @default ''
+         */
+        "value"?: string;
+    }
+
+    interface RecipeCardAttributes {
+        "favorite": boolean;
+        "showAuthor": boolean;
+        "showActions": boolean;
+    }
+    interface RecipeFilterAttributes {
+        "source": RecipeFilterValue['source'];
+        "category": string;
+        "area": string;
+        "showMine": boolean;
+    }
+    interface RecipeGridAttributes {
+        "loading": boolean;
+        "showActions": boolean;
+        "emptyMessage": string;
+    }
+    interface RecipeSearchAttributes {
+        "value": string;
+        "placeholder": string;
+        "debounce": number;
+    }
+
     interface IntrinsicElements {
+        "recipe-card": Omit<RecipeCard, keyof RecipeCardAttributes> & { [K in keyof RecipeCard & keyof RecipeCardAttributes]?: RecipeCard[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `attr:${K}`]?: RecipeCardAttributes[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `prop:${K}`]?: RecipeCard[K] };
+        "recipe-filter": Omit<RecipeFilter, keyof RecipeFilterAttributes> & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes]?: RecipeFilter[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `attr:${K}`]?: RecipeFilterAttributes[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `prop:${K}`]?: RecipeFilter[K] };
+        "recipe-grid": Omit<RecipeGrid, keyof RecipeGridAttributes> & { [K in keyof RecipeGrid & keyof RecipeGridAttributes]?: RecipeGrid[K] } & { [K in keyof RecipeGrid & keyof RecipeGridAttributes as `attr:${K}`]?: RecipeGridAttributes[K] } & { [K in keyof RecipeGrid & keyof RecipeGridAttributes as `prop:${K}`]?: RecipeGrid[K] };
+        "recipe-search": Omit<RecipeSearch, keyof RecipeSearchAttributes> & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes]?: RecipeSearch[K] } & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes as `attr:${K}`]?: RecipeSearchAttributes[K] } & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes as `prop:${K}`]?: RecipeSearch[K] };
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "recipe-card": LocalJSX.IntrinsicElements["recipe-card"] & JSXBase.HTMLAttributes<HTMLRecipeCardElement>;
+            "recipe-filter": LocalJSX.IntrinsicElements["recipe-filter"] & JSXBase.HTMLAttributes<HTMLRecipeFilterElement>;
+            "recipe-grid": LocalJSX.IntrinsicElements["recipe-grid"] & JSXBase.HTMLAttributes<HTMLRecipeGridElement>;
+            "recipe-search": LocalJSX.IntrinsicElements["recipe-search"] & JSXBase.HTMLAttributes<HTMLRecipeSearchElement>;
         }
     }
 }

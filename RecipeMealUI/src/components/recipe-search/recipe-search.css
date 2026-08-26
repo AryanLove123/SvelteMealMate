@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  font-family: var(--ru-font, system-ui, sans-serif);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--ru-border, #ddd);
+  background: var(--ru-surface, #fff);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+}
+
+.search-form:focus-within {
+  border-color: var(--ru-accent, #e0546b);
+}
+
+.icon {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.95rem;
+  background: transparent;
+  color: var(--ru-text, #222);
+}

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  font-family: var(--ru-font, system-ui, sans-serif);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+select {
+  border: 1px solid var(--ru-border, #ddd);
+  background: var(--ru-surface, #fff);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--ru-text, #222);
+}

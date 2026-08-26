@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { connectToDatabase } from '$lib/server/db/mongo';
+import { connectToDatabase } from '../../../lib/server/db/mongo.ts';
 
 export async function GET() {
 	try {
