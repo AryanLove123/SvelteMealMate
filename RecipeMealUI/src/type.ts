@@ -7,5 +7,20 @@ export interface UiRecipeSummary {
   imageUrl?: string;
   category?: string;
   area?: string;
-  authorName?: string;
+  createBy?: string;
+}
+
+export interface UiIngredient {
+  name: string;
+  measure?: string;
+}
+
+export interface UiRecipeFormValue {
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  category: string;
+  area?: string;
+  ingredients: UiIngredient[];
+  instructions: string;
 }

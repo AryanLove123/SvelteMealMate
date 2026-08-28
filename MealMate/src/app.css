@@ -7,4 +7,36 @@
   --bg: #faf8f6;
   --bg-muted: #f4f4f4;
   --font: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --ru-accent: var(--accent);
+  --ru-text: var(--text);
+  --ru-muted: var(--muted);
+  --ru-border: var(--border);
+  --ru-surface: var(--surface);
+  --ru-bg-muted: var(--bg-muted);
+  --ru-font: var(--font);
+}
+
+*{
+  box-sizing: border-box;
+}
+
+html,body{
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--bg-muted);
+  color: var(--muted);
 }

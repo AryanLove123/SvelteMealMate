@@ -18,6 +18,12 @@ export async function getFavoriteKeys(userId: string): Promise<Set<string>> {
   return new Set(docs.map(d => refKey(d.recipeId, d.source)));
 }
 
+export async function isFavorite(userId: string, recipeId: string, source: RecipeSource): Promise<boolean> {
+  const col = await getCollection<FavoriteDoc>(COLLECTIONS.favorites);
+  const doc = await col.findOne({ userId, recipeId, source });
+  return !!doc;
+}
+
 export async function listFavorites(userId: string): Promise<FavoriteEntry[]>{
   const col = await getCollection<FavoriteDoc>(COLLECTIONS.favorites);
   const docs = await col.find({userId}).sort({createdAt: -1}).toArray();

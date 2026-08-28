@@ -68,7 +68,7 @@ export async function getSessionUser(
   const users = db.collection(COLLECTIONS.users);
 
   const user = await users.findOne({
-    _id: new ObjectId(userId),
+    _id: userId as any,
   });
 
   if (!user) {

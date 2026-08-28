@@ -1,7 +1,9 @@
+import type { RecipeInput } from "../../../lib/schemas/recipe.ts";
 import type { Recipe, RecipeSummary } from "../../../lib/models/recipe.model.ts";
 import { COLLECTIONS, getCollection } from "../db/mongo.ts";
 import {env} from "$env/dynamic/private"
 import { filterExternalRecipes, getDefaultExternalRecipes, searchExternalRecipes } from "./externalRecipesRepository.ts";
+import { randomUUID } from "node:crypto";
 interface RecipeDoc {
   _id: string;
   title: string;
@@ -214,6 +216,12 @@ export async function listCommunityRecipes(filter? : {
   return docs.map(toSummary);
 }
 
+export async function getCommunityRecipeById(id: string): Promise<Recipe | null>{
+  const col = await getCollection<RecipeDoc>(COLLECTIONS.recipes);
+  const doc = await col.findOne({_id:id});
+  return doc? toRecipe(doc) : null;
+}
+
 
 //used to fetch those recipes whose ids are provided
 export async function getCommunityRecipeSummaries(ids: string[]): Promise<Map<string, RecipeSummary>>{
@@ -222,4 +230,24 @@ export async function getCommunityRecipeSummaries(ids: string[]): Promise<Map<st
   const col = await getCollection<RecipeDoc>(COLLECTIONS.recipes);
   const docs = await col.find({_id: {$in: ids}}).toArray();
   return new Map(docs.map(doc => [doc._id, toSummary(doc)]));
+}
+
+export async function createCommunityRecipe(input: RecipeInput, createdBy: string): Promise<Recipe>{
+  const col = await getCollection<RecipeDoc>(COLLECTIONS.recipes);
+  const now = new Date().toISOString();
+  const doc: RecipeDoc = {
+    _id: randomUUID(),
+    title: input.title,
+    description: input.description ?? '',
+    imageUrl: input.imageUrl ?? '',
+    category: input.category,
+    area: input.area ?? '',
+    ingredients: input.ingredients,
+    instructions: input.instructions,
+    createdBy,
+    createdAt: now,
+    updatedAt: now,
+  };
+  await col.insertOne(doc);
+  return toRecipe(doc);
 }

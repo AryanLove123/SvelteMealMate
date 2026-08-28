@@ -5,15 +5,43 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { UiRecipeSummary } from "./type";
+import { UiRecipeFormValue, UiRecipeSummary } from "./type";
 import { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
 import { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
 import { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
-export { UiRecipeSummary } from "./type";
+export { UiRecipeFormValue, UiRecipeSummary } from "./type";
 export { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
 export { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
 export { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
 export namespace Components {
+    interface ConfirmationDialog {
+        /**
+          * @default 'Cancel'
+         */
+        "cancelLabel": string;
+        /**
+          * @default 'Delete'
+         */
+        "confirmLabel": string;
+        /**
+          * @default 'Are you sure?'
+         */
+        "heading": string;
+        /**
+          * @default 'This action cannot be undone'
+         */
+        "message": string;
+        /**
+          * @default false
+         */
+        "open": boolean;
+    }
+    interface ModalDialog {
+        /**
+          * @default false
+         */
+        "open": boolean;
+    }
     interface RecipeCard {
         /**
           * @default false
@@ -55,6 +83,25 @@ export namespace Components {
          */
         "source": RecipeFilterValue['source'];
     }
+    interface RecipeForm {
+        /**
+          * @default []
+         */
+        "areas": string[];
+        /**
+          * @default []
+         */
+        "categories": string[];
+        /**
+          * @default 'create'
+         */
+        "mode": 'create' | 'edit';
+        "recipe"?: UiRecipeFormValue;
+        /**
+          * @default false
+         */
+        "submitting": boolean;
+    }
     interface RecipeGrid {
         /**
           * @default 'Try adjusting your search or filters.'
@@ -93,6 +140,14 @@ export namespace Components {
         "value": string;
     }
 }
+export interface ConfirmationDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLConfirmationDialogElement;
+}
+export interface ModalDialogCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLModalDialogElement;
+}
 export interface RecipeCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRecipeCardElement;
@@ -100,6 +155,10 @@ export interface RecipeCardCustomEvent<T> extends CustomEvent<T> {
 export interface RecipeFilterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLRecipeFilterElement;
+}
+export interface RecipeFormCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLRecipeFormElement;
 }
 export interface RecipeGridCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -110,6 +169,41 @@ export interface RecipeSearchCustomEvent<T> extends CustomEvent<T> {
     target: HTMLRecipeSearchElement;
 }
 declare global {
+    interface HTMLConfirmationDialogElementEventMap {
+        "confirm": void;
+        "cancel": void;
+    }
+    interface HTMLConfirmationDialogElement extends Components.ConfirmationDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLConfirmationDialogElementEventMap>(type: K, listener: (this: HTMLConfirmationDialogElement, ev: ConfirmationDialogCustomEvent<HTMLConfirmationDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLConfirmationDialogElementEventMap>(type: K, listener: (this: HTMLConfirmationDialogElement, ev: ConfirmationDialogCustomEvent<HTMLConfirmationDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLConfirmationDialogElement: {
+        prototype: HTMLConfirmationDialogElement;
+        new (): HTMLConfirmationDialogElement;
+    };
+    interface HTMLModalDialogElementEventMap {
+        "modal-close": void;
+    }
+    interface HTMLModalDialogElement extends Components.ModalDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLModalDialogElementEventMap>(type: K, listener: (this: HTMLModalDialogElement, ev: ModalDialogCustomEvent<HTMLModalDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLModalDialogElementEventMap>(type: K, listener: (this: HTMLModalDialogElement, ev: ModalDialogCustomEvent<HTMLModalDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLModalDialogElement: {
+        prototype: HTMLModalDialogElement;
+        new (): HTMLModalDialogElement;
+    };
     interface HTMLRecipeCardElementEventMap {
         "recipe-click": RecipeClickDetail;
         "favorite-toggle": FavoriteToggleDetail;
@@ -146,6 +240,24 @@ declare global {
     var HTMLRecipeFilterElement: {
         prototype: HTMLRecipeFilterElement;
         new (): HTMLRecipeFilterElement;
+    };
+    interface HTMLRecipeFormElementEventMap {
+        "recipe-submit": UiRecipeFormValue;
+        "recipe-cancel": void;
+    }
+    interface HTMLRecipeFormElement extends Components.RecipeForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLRecipeFormElementEventMap>(type: K, listener: (this: HTMLRecipeFormElement, ev: RecipeFormCustomEvent<HTMLRecipeFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLRecipeFormElementEventMap>(type: K, listener: (this: HTMLRecipeFormElement, ev: RecipeFormCustomEvent<HTMLRecipeFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLRecipeFormElement: {
+        prototype: HTMLRecipeFormElement;
+        new (): HTMLRecipeFormElement;
     };
     interface HTMLRecipeGridElementEventMap {
         "recipe-click": RecipeClickDetail1;
@@ -185,13 +297,47 @@ declare global {
         new (): HTMLRecipeSearchElement;
     };
     interface HTMLElementTagNameMap {
+        "confirmation-dialog": HTMLConfirmationDialogElement;
+        "modal-dialog": HTMLModalDialogElement;
         "recipe-card": HTMLRecipeCardElement;
         "recipe-filter": HTMLRecipeFilterElement;
+        "recipe-form": HTMLRecipeFormElement;
         "recipe-grid": HTMLRecipeGridElement;
         "recipe-search": HTMLRecipeSearchElement;
     }
 }
 declare namespace LocalJSX {
+    interface ConfirmationDialog {
+        /**
+          * @default 'Cancel'
+         */
+        "cancelLabel"?: string;
+        /**
+          * @default 'Delete'
+         */
+        "confirmLabel"?: string;
+        /**
+          * @default 'Are you sure?'
+         */
+        "heading"?: string;
+        /**
+          * @default 'This action cannot be undone'
+         */
+        "message"?: string;
+        "onCancel"?: (event: ConfirmationDialogCustomEvent<void>) => void;
+        "onConfirm"?: (event: ConfirmationDialogCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+    }
+    interface ModalDialog {
+        "onModal-close"?: (event: ModalDialogCustomEvent<void>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+    }
     interface RecipeCard {
         /**
           * @default false
@@ -238,6 +384,27 @@ declare namespace LocalJSX {
          */
         "source"?: RecipeFilterValue['source'];
     }
+    interface RecipeForm {
+        /**
+          * @default []
+         */
+        "areas"?: string[];
+        /**
+          * @default []
+         */
+        "categories"?: string[];
+        /**
+          * @default 'create'
+         */
+        "mode"?: 'create' | 'edit';
+        "onRecipe-cancel"?: (event: RecipeFormCustomEvent<void>) => void;
+        "onRecipe-submit"?: (event: RecipeFormCustomEvent<UiRecipeFormValue>) => void;
+        "recipe"?: UiRecipeFormValue;
+        /**
+          * @default false
+         */
+        "submitting"?: boolean;
+    }
     interface RecipeGrid {
         /**
           * @default 'Try adjusting your search or filters.'
@@ -281,6 +448,16 @@ declare namespace LocalJSX {
         "value"?: string;
     }
 
+    interface ConfirmationDialogAttributes {
+        "open": boolean;
+        "heading": string;
+        "message": string;
+        "confirmLabel": string;
+        "cancelLabel": string;
+    }
+    interface ModalDialogAttributes {
+        "open": boolean;
+    }
     interface RecipeCardAttributes {
         "favorite": boolean;
         "showAuthor": boolean;
@@ -291,6 +468,10 @@ declare namespace LocalJSX {
         "category": string;
         "area": string;
         "showMine": boolean;
+    }
+    interface RecipeFormAttributes {
+        "mode": 'create' | 'edit';
+        "submitting": boolean;
     }
     interface RecipeGridAttributes {
         "loading": boolean;
@@ -304,8 +485,11 @@ declare namespace LocalJSX {
     }
 
     interface IntrinsicElements {
+        "confirmation-dialog": Omit<ConfirmationDialog, keyof ConfirmationDialogAttributes> & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes]?: ConfirmationDialog[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `attr:${K}`]?: ConfirmationDialogAttributes[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `prop:${K}`]?: ConfirmationDialog[K] };
+        "modal-dialog": Omit<ModalDialog, keyof ModalDialogAttributes> & { [K in keyof ModalDialog & keyof ModalDialogAttributes]?: ModalDialog[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `attr:${K}`]?: ModalDialogAttributes[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `prop:${K}`]?: ModalDialog[K] };
         "recipe-card": Omit<RecipeCard, keyof RecipeCardAttributes> & { [K in keyof RecipeCard & keyof RecipeCardAttributes]?: RecipeCard[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `attr:${K}`]?: RecipeCardAttributes[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `prop:${K}`]?: RecipeCard[K] };
         "recipe-filter": Omit<RecipeFilter, keyof RecipeFilterAttributes> & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes]?: RecipeFilter[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `attr:${K}`]?: RecipeFilterAttributes[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `prop:${K}`]?: RecipeFilter[K] };
+        "recipe-form": Omit<RecipeForm, keyof RecipeFormAttributes> & { [K in keyof RecipeForm & keyof RecipeFormAttributes]?: RecipeForm[K] } & { [K in keyof RecipeForm & keyof RecipeFormAttributes as `attr:${K}`]?: RecipeFormAttributes[K] } & { [K in keyof RecipeForm & keyof RecipeFormAttributes as `prop:${K}`]?: RecipeForm[K] };
         "recipe-grid": Omit<RecipeGrid, keyof RecipeGridAttributes> & { [K in keyof RecipeGrid & keyof RecipeGridAttributes]?: RecipeGrid[K] } & { [K in keyof RecipeGrid & keyof RecipeGridAttributes as `attr:${K}`]?: RecipeGridAttributes[K] } & { [K in keyof RecipeGrid & keyof RecipeGridAttributes as `prop:${K}`]?: RecipeGrid[K] };
         "recipe-search": Omit<RecipeSearch, keyof RecipeSearchAttributes> & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes]?: RecipeSearch[K] } & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes as `attr:${K}`]?: RecipeSearchAttributes[K] } & { [K in keyof RecipeSearch & keyof RecipeSearchAttributes as `prop:${K}`]?: RecipeSearch[K] };
     }
@@ -314,8 +498,11 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "confirmation-dialog": LocalJSX.IntrinsicElements["confirmation-dialog"] & JSXBase.HTMLAttributes<HTMLConfirmationDialogElement>;
+            "modal-dialog": LocalJSX.IntrinsicElements["modal-dialog"] & JSXBase.HTMLAttributes<HTMLModalDialogElement>;
             "recipe-card": LocalJSX.IntrinsicElements["recipe-card"] & JSXBase.HTMLAttributes<HTMLRecipeCardElement>;
             "recipe-filter": LocalJSX.IntrinsicElements["recipe-filter"] & JSXBase.HTMLAttributes<HTMLRecipeFilterElement>;
+            "recipe-form": LocalJSX.IntrinsicElements["recipe-form"] & JSXBase.HTMLAttributes<HTMLRecipeFormElement>;
             "recipe-grid": LocalJSX.IntrinsicElements["recipe-grid"] & JSXBase.HTMLAttributes<HTMLRecipeGridElement>;
             "recipe-search": LocalJSX.IntrinsicElements["recipe-search"] & JSXBase.HTMLAttributes<HTMLRecipeSearchElement>;
         }

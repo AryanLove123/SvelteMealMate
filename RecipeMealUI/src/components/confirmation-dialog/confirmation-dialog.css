@@ -1,0 +1,30 @@
+:host {
+  font-family: var(--ru-font, system-ui, sans-serif);
+}
+
+.message {
+  margin: 0;
+  color: var(--ru-muted, #555);
+  font-size: 0.9rem;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid var(--ru-border, #ddd);
+  background: var(--ru-surface, #fff);
+  color: var(--ru-text, #222);
+}
+
+.btn.confirm {
+  background: var(--ru-accent, #e0546b);
+  border-color: var(--ru-accent, #e0546b);
+  color: #fff;
+}
+
+.btn.confirm.danger {
+  background: #c0392b;
+  border-color: #c0392b;
+}

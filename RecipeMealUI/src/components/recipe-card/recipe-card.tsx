@@ -66,7 +66,7 @@ export class RecipeCard {
             {r.category ? <span>{r.category}</span> : null}
             {r.area ? <span> · {r.area}</span> : null}
           </p>
-          {this.showAuthor && r.source === 'community' && r.authorName ? <p class="author">Created by {r.authorName}</p> : null}
+          {this.showAuthor && r.source === 'community' && r.createBy ? <p class="author">Created by {r.createBy}</p> : null}
           {this.showActions ? (
             <div class="actions">
               <button type="button" class="btn edit" onClick={this.onEdit}>
