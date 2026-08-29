@@ -5,11 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { UiRecipeFormValue, UiRecipeSummary } from "./type";
+import { UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+import { MealAddDetail } from "./components/meal-plan-week/meal-plan-week";
 import { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
 import { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
 import { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
-export { UiRecipeFormValue, UiRecipeSummary } from "./type";
+export { UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+export { MealAddDetail } from "./components/meal-plan-week/meal-plan-week";
 export { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
 export { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
 export { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
@@ -35,6 +37,19 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+    }
+    interface MealPlanCard {
+        "entry": UiMealPlanEntry;
+    }
+    interface MealPlanWeek {
+        /**
+          * @default []
+         */
+        "meals": UiMealPlanEntry[];
+        /**
+          * @default ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+         */
+        "week": string[];
     }
     interface ModalDialog {
         /**
@@ -144,6 +159,14 @@ export interface ConfirmationDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLConfirmationDialogElement;
 }
+export interface MealPlanCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMealPlanCardElement;
+}
+export interface MealPlanWeekCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLMealPlanWeekElement;
+}
 export interface ModalDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLModalDialogElement;
@@ -186,6 +209,43 @@ declare global {
     var HTMLConfirmationDialogElement: {
         prototype: HTMLConfirmationDialogElement;
         new (): HTMLConfirmationDialogElement;
+    };
+    interface HTMLMealPlanCardElementEventMap {
+        "meal-edit": UiMealPlanEntry;
+        "meal-remove": UiMealPlanEntry;
+    }
+    interface HTMLMealPlanCardElement extends Components.MealPlanCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMealPlanCardElementEventMap>(type: K, listener: (this: HTMLMealPlanCardElement, ev: MealPlanCardCustomEvent<HTMLMealPlanCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMealPlanCardElementEventMap>(type: K, listener: (this: HTMLMealPlanCardElement, ev: MealPlanCardCustomEvent<HTMLMealPlanCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLMealPlanCardElement: {
+        prototype: HTMLMealPlanCardElement;
+        new (): HTMLMealPlanCardElement;
+    };
+    interface HTMLMealPlanWeekElementEventMap {
+        "meal-add": MealAddDetail;
+        "meal-edit": UiMealPlanEntry;
+        "meal-remove": UiMealPlanEntry;
+    }
+    interface HTMLMealPlanWeekElement extends Components.MealPlanWeek, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLMealPlanWeekElementEventMap>(type: K, listener: (this: HTMLMealPlanWeekElement, ev: MealPlanWeekCustomEvent<HTMLMealPlanWeekElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLMealPlanWeekElementEventMap>(type: K, listener: (this: HTMLMealPlanWeekElement, ev: MealPlanWeekCustomEvent<HTMLMealPlanWeekElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLMealPlanWeekElement: {
+        prototype: HTMLMealPlanWeekElement;
+        new (): HTMLMealPlanWeekElement;
     };
     interface HTMLModalDialogElementEventMap {
         "modal-close": void;
@@ -298,6 +358,8 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "confirmation-dialog": HTMLConfirmationDialogElement;
+        "meal-plan-card": HTMLMealPlanCardElement;
+        "meal-plan-week": HTMLMealPlanWeekElement;
         "modal-dialog": HTMLModalDialogElement;
         "recipe-card": HTMLRecipeCardElement;
         "recipe-filter": HTMLRecipeFilterElement;
@@ -330,6 +392,24 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+    }
+    interface MealPlanCard {
+        "entry": UiMealPlanEntry;
+        "onMeal-edit"?: (event: MealPlanCardCustomEvent<UiMealPlanEntry>) => void;
+        "onMeal-remove"?: (event: MealPlanCardCustomEvent<UiMealPlanEntry>) => void;
+    }
+    interface MealPlanWeek {
+        /**
+          * @default []
+         */
+        "meals"?: UiMealPlanEntry[];
+        "onMeal-add"?: (event: MealPlanWeekCustomEvent<MealAddDetail>) => void;
+        "onMeal-edit"?: (event: MealPlanWeekCustomEvent<UiMealPlanEntry>) => void;
+        "onMeal-remove"?: (event: MealPlanWeekCustomEvent<UiMealPlanEntry>) => void;
+        /**
+          * @default ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+         */
+        "week"?: string[];
     }
     interface ModalDialog {
         "onModal-close"?: (event: ModalDialogCustomEvent<void>) => void;
@@ -486,6 +566,8 @@ declare namespace LocalJSX {
 
     interface IntrinsicElements {
         "confirmation-dialog": Omit<ConfirmationDialog, keyof ConfirmationDialogAttributes> & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes]?: ConfirmationDialog[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `attr:${K}`]?: ConfirmationDialogAttributes[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `prop:${K}`]?: ConfirmationDialog[K] };
+        "meal-plan-card": MealPlanCard;
+        "meal-plan-week": MealPlanWeek;
         "modal-dialog": Omit<ModalDialog, keyof ModalDialogAttributes> & { [K in keyof ModalDialog & keyof ModalDialogAttributes]?: ModalDialog[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `attr:${K}`]?: ModalDialogAttributes[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `prop:${K}`]?: ModalDialog[K] };
         "recipe-card": Omit<RecipeCard, keyof RecipeCardAttributes> & { [K in keyof RecipeCard & keyof RecipeCardAttributes]?: RecipeCard[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `attr:${K}`]?: RecipeCardAttributes[K] } & { [K in keyof RecipeCard & keyof RecipeCardAttributes as `prop:${K}`]?: RecipeCard[K] };
         "recipe-filter": Omit<RecipeFilter, keyof RecipeFilterAttributes> & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes]?: RecipeFilter[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `attr:${K}`]?: RecipeFilterAttributes[K] } & { [K in keyof RecipeFilter & keyof RecipeFilterAttributes as `prop:${K}`]?: RecipeFilter[K] };
@@ -499,6 +581,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "confirmation-dialog": LocalJSX.IntrinsicElements["confirmation-dialog"] & JSXBase.HTMLAttributes<HTMLConfirmationDialogElement>;
+            "meal-plan-card": LocalJSX.IntrinsicElements["meal-plan-card"] & JSXBase.HTMLAttributes<HTMLMealPlanCardElement>;
+            "meal-plan-week": LocalJSX.IntrinsicElements["meal-plan-week"] & JSXBase.HTMLAttributes<HTMLMealPlanWeekElement>;
             "modal-dialog": LocalJSX.IntrinsicElements["modal-dialog"] & JSXBase.HTMLAttributes<HTMLModalDialogElement>;
             "recipe-card": LocalJSX.IntrinsicElements["recipe-card"] & JSXBase.HTMLAttributes<HTMLRecipeCardElement>;
             "recipe-filter": LocalJSX.IntrinsicElements["recipe-filter"] & JSXBase.HTMLAttributes<HTMLRecipeFilterElement>;

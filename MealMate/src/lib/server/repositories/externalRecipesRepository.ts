@@ -162,7 +162,7 @@ export async function getDefaultExternalRecipes(limit= Number(env.DEFAULT_RECIPE
   return items.length>0 ? items: searchExternalRecipes('chicken',limit);
 }
 
-export async function searchExternalRecipes(search: string, limit = Number(env.DEFAULT_RECIPIES_LIMIT)): Promise<RecipeSummary[]>{
+export async function searchExternalRecipes(search: string, limit = Number(env.DEFAULT_RECIPES_LIMIT)): Promise<RecipeSummary[]>{
   const data = await fetchJson<MealDbListResponse>(`/search.php?s=${encodeURIComponent(search)}`);
   return (data.meals ?? []).map(normalizeMeal).map(toSummary).slice(0,limit);
 }

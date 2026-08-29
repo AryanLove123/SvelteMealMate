@@ -34,3 +34,16 @@ export const recipeInputSchema = z.object({
 });
 
 export type RecipeInput = z.infer<typeof recipeInputSchema>;
+
+
+export const mealPlanInputSchema = z.object({
+  recipeId: z.string().trim().min(1),
+  source: z.enum(['external', 'community']),
+  day: z.enum(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']),
+  mealType: z.enum(['breakfast', 'lunch', 'dinner', 'snack']),
+  weekStart: z.string().trim().min(1),
+});
+
+export const mealPlanUpdateSchema = mealPlanInputSchema.partial().extend({
+  recipeId: z.string().trim().min(1).optional(),
+});

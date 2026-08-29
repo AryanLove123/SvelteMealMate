@@ -21,7 +21,8 @@ export async function connectToDatabase() {
 export const COLLECTIONS = {
 	users: 'users',
 	recipes: 'recipes',
-	favorites: 'favorites'
+	favorites: 'favorites',
+    mealPlan: 'mealPlan',
 } as const;
 
 export type CollectionName =

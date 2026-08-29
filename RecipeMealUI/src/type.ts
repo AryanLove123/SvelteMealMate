@@ -24,3 +24,11 @@ export interface UiRecipeFormValue {
   ingredients: UiIngredient[];
   instructions: string;
 }
+
+export type UiMealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+export interface UiMealPlanEntry {
+  id: string;
+  day: string;
+  mealType: UiMealType;
+  recipe: UiRecipeSummary;
+}
