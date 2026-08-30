@@ -12,6 +12,7 @@
   padding: 0.4rem;
   background: var(--ru-surface, #fff);
   min-width: 0;
+  position: relative;
 }
 
 .img-placeholder {
@@ -24,6 +25,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.img-placeholder.clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.img-placeholder.clickable:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .img-placeholder img {
@@ -72,4 +83,151 @@
 
 .actions button:hover {
   color: var(--ru-accent, #e0546b);
+}
+
+.popout-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.popout-card {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 320px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  position: relative;
+  animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popout-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popout-close:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.popout-image-container {
+  width: 100%;
+  height: 160px;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popout-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popout-placeholder {
+  font-size: 3rem;
+}
+
+.popout-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.popout-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #b3671f;
+}
+
+.popout-badge.external {
+  color: #1d6fa5;
+}
+
+.popout-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #111;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.popout-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+.meta-tag {
+  font-size: 0.72rem;
+  background: #f0f0f0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  color: #444;
+}
+
+.popout-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+
+.popout-actions button {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.btn-edit:hover {
+  border-color: #333;
+}
+
+.btn-remove:hover {
+  border-color: #e0546b;
+  color: #e0546b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
