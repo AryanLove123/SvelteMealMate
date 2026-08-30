@@ -10,10 +10,10 @@
 
 .planner {
   display: grid;
-  grid-template-columns: 110px repeat(7, minmax(160px, 1fr));
+  grid-template-columns: 100px repeat(4, minmax(180px, 1fr));
   grid-auto-rows: min-content;
   gap: 0.5rem;
-  min-width: 1300px;
+  min-width: 720px;
 }
 
 .cell {
@@ -24,27 +24,29 @@
   visibility: hidden;
   position: sticky;
   left: 0;
-  z-index: 2;
+  top: 0;
+  z-index: 3;
+  background: var(--ru-bg, #faf8f5);
 }
 
-.day-head {
+.meal-head {
   font-size: 0.78rem;
   font-weight: 700;
   text-align: center;
+  text-transform: capitalize;
   color: var(--ru-text, #333);
   padding: 0.5rem 0;
   position: sticky;
   top: 0;
   background: var(--ru-bg, #faf8f5);
   border-radius: 8px;
-  z-index: 1;
+  z-index: 2;
 }
 
-.meal-type-label {
-  font-size: 0.72rem;
+.day-label {
+  font-size: 0.76rem;
   font-weight: 600;
-  text-transform: capitalize;
-  color: var(--ru-muted, #888);
+  color: var(--ru-muted, #555);
   display: flex;
   align-items: center;
   position: sticky;

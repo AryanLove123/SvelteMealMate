@@ -29,14 +29,18 @@ export class MealPlanWeek {
     return (
       <div class="planner-scroll">
         <div class="planner">
+          {/* Top-left empty sticky corner */}
           <div class="cell corner" />
-          {this.week.map(day => (
-            <div class="cell day-head">{day}</div>
+
+          {/* X-AXIS: Meal Types (4 columns) */}
+          {MEAL_TYPES.map(mealType => (
+            <div class="cell meal-head">{mealType}</div>
           ))}
 
-          {MEAL_TYPES.map(mealType => [
-            <div class="cell meal-type-label">{mealType}</div>,
-            ...this.week.map(day => {
+          {/* Y-AXIS: Days of the week (7 rows) */}
+          {this.week.map(day => [
+            <div class="cell day-label">{day}</div>,
+            ...MEAL_TYPES.map(mealType => {
               const entries = this.entriesFor(day, mealType);
               return (
                 <div class="cell body-cell">
@@ -47,7 +51,7 @@ export class MealPlanWeek {
                       onMeal-remove={(e: CustomEvent<UiMealPlanEntry>) => this.mealRemove.emit(e.detail)}
                     />
                   ))}
-                  <button type='button' class="add-btn" onClick={() => this.mealAdd.emit({day, mealType})}>
+                  <button type="button" class="add-btn" onClick={() => this.mealAdd.emit({ day, mealType })}>
                     + Add
                   </button>
                 </div>

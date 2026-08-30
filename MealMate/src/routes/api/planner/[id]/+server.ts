@@ -7,7 +7,7 @@ export const PUT: RequestHandler = async({params, request, locals}) =>{
     const userId = locals.user.id;
 
     const body = await request.json().catch(() => null);
-    const parsed = mealPlanInputSchema.safeParse(body);
+    const parsed = mealPlanInputSchema.partial().safeParse(body);
 
     if(!parsed.success){
         throw error(400, parsed.error.issues.map(i=> i.message).join(';'));
