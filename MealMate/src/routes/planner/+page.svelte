@@ -35,7 +35,6 @@
 
   function handleMealAdd(e: CustomEvent<{day: WeekDay; mealType: MealType}>){
     pickerContext = {day: e.detail.day, mealType: e.detail.mealType};
-    console.log("Picker context",pickerContext);
     pickerOpen = true;
   }
 
@@ -110,7 +109,6 @@
       const external = externalRes.ok ? (await externalRes.json()).recipes ?? [] : [];
       const community = communityRes.ok ? (await communityRes.json()).recipes ?? [] : [];
       pickerResults = [...community, ...external];
-      console.log('[PlannerPicker] results count:', pickerResults.length, { external, community });
     } finally {
       pickerLoading = false;
     }

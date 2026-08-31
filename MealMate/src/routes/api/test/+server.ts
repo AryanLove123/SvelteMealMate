@@ -18,8 +18,6 @@ export async function GET() {
 			insertedId: result.insertedId
 		});
 	} catch (error) {
-		console.error('MongoDB error:', error);
-
 		return json(
 			{
 				success: false,

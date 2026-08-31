@@ -36,6 +36,11 @@ export const recipeInputSchema = z.object({
 export type RecipeInput = z.infer<typeof recipeInputSchema>;
 
 
+export const favoriteInputSchema = z.object({
+  recipeId: z.string().trim().min(1),
+  source: z.enum(['external', 'community']),
+});
+
 export const mealPlanInputSchema = z.object({
   recipeId: z.string().trim().min(1),
   source: z.enum(['external', 'community']),

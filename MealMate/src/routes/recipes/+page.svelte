@@ -1,9 +1,16 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import type { PageData } from './$types.js';
-  import type { RecipeSummary } from '../../lib/models/recipe.model.ts';
+  import type { RecipeSource, RecipeSummary } from '../../lib/models/recipe.model.ts';
+  import { favoritesSnapshot, initFavorites, toggleFavorite } from '../../lib/stores/favorite.svelte.ts';
 
   let { data }: { data: PageData } = $props();
+
+  $effect(() => {
+    initFavorites(data.favoriteKeys);
+  });
+
+  const favoriteKeyArray = $derived(Array.from(favoritesSnapshot()));
 
   function buildQuery(next: Partial<{ search: string; category: string; area: string; source: string; page: string }>) {
     const params = new URLSearchParams({
@@ -34,7 +41,7 @@
       return;
     }
 
-    goto(buildQuery({ ...next, page: '1' }), { keepFocus: true, noScroll: true });
+    goto(buildQuery({ ...next, page: '1' }), { keepFocus: true, noScroll: true, invalidateAll: false });
   }
 
   function handlePageChange(nextPage: number) {
@@ -52,6 +59,14 @@
 
   function handleRecipeClick(e: CustomEvent<{ id: string; source: 'external' | 'community' }>) {
     goto(`/recipes/${e.detail.id}?source=${e.detail.source}`);
+  }
+
+  async function handleFavoriteToggle(e: CustomEvent<{recipeId: string, source: RecipeSource, changeActive: boolean}>){
+    if(!data.user){
+      goto('/login');
+      return;
+    }
+    await toggleFavorite(e.detail.recipeId, e.detail.source, e.detail.changeActive);
   }
 </script>
 
@@ -80,8 +95,10 @@
 
   <recipe-grid
     recipes={data.recipes as RecipeSummary[]}
+    favorites={favoriteKeyArray}
     empty-message="No recipes matched your search. Try a different term or clear filters."
     onrecipe-click={handleRecipeClick}
+    onfavorite-toggle={handleFavoriteToggle}
   ></recipe-grid>
 
   {#if data.totalPages > 1}

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { toggleFavorite } from "../../../lib/stores/favorite.svelte.ts";
   import type { PageData } from "./$types.js";
 
   let { data }: { data: PageData } = $props();
@@ -7,24 +8,35 @@
   let showDeleteConfirm = $state(false);
   let deleting = $state(false);
 
-  async function confirmDelete(){
-    deleting = true;
-    try{
-        const res = await fetch(`api/recipes/${data.recipe.id}`, {
-            method: 'DELETE'
-        });
+  let favToggle = $state<boolean|null>();
+  const favorited = $derived(favToggle?? data.favorited);
 
-        if(!res.ok) {
-            const data = await res.json().catch(()=> null);
-            throw new Error(data?.message ?? "Failed to delete recipe.");
-        }
-        console.log("Successfully Deleted!!")
-        goto('/my-recipes');
-    }catch(err){
-        console.log(err);
-    }finally{
-        deleting=false;
-        showDeleteConfirm = false;
+  async function handleFavoriteToggle(e: CustomEvent<{ recipeId: string; source: 'external' | 'community'; changeActive: boolean }>) {
+    if (!data.user) {
+      goto('/login');
+      return;
+    }
+    favToggle = e.detail.changeActive;
+    await toggleFavorite(e.detail.recipeId, e.detail.source, e.detail.changeActive);
+  }
+
+  async function confirmDelete() {
+    deleting = true;
+    try {
+      const res = await fetch(`api/recipes/${data.recipe.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message ?? "Failed to delete recipe.");
+      }
+      goto("/my-recipes");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      deleting = false;
+      showDeleteConfirm = false;
     }
   }
 </script>
@@ -63,6 +75,12 @@
       </div>
 
       <div class="actions">
+        <favorite-button
+          active={favorited}
+          recipe-id={data.recipe.id}
+          source={data.recipe.source}
+          onfavorite-toggle={handleFavoriteToggle}
+        ></favorite-button>
         {#if data.isOwner}
           <a class="btn" href={`/my-recipes/${data.recipe.id}/edit`}>Edit</a>
           <button
@@ -99,16 +117,14 @@
   </div>
 </article>
 
-
 <confirmation-dialog
   open={showDeleteConfirm}
   heading="Delete this recipe?"
   message="This will permanently remove the recipe, and it will also be removed from anyone's favorites or meal plans."
-  confirm-label={deleting ? 'Deleting…' : 'Delete'}
+  confirm-label={deleting ? "Deleting…" : "Delete"}
   onconfirm={confirmDelete}
   oncancel={() => (showDeleteConfirm = false)}
 ></confirmation-dialog>
-
 
 <style>
   .recipe-img {
@@ -119,7 +135,7 @@
     margin-bottom: 1.75rem;
   }
 
-  .recipe-img img{
+  .recipe-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -228,4 +244,3 @@
     color: var(--text);
   }
 </style>
-

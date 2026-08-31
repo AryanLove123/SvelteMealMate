@@ -27,6 +27,9 @@
     "type": "git",
     "url": "https://github.com/stenciljs/component-starter.git"
   },
+  "publishConfig": {
+  "access": "public"
+  },
   "files": [
     "dist/",
     "loader/"

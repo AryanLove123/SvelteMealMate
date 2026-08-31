@@ -1,15 +1,10 @@
 import { Component, EventEmitter, Event, Prop, h } from '@stencil/core';
 import { RecipeSource, UiRecipeSummary } from '../../type';
+import { FavoriteToggleDetail } from '../favorite-button/favorite-button';
 
 export interface RecipeClickDetail {
   id: string;
   source: RecipeSource;
-}
-
-export interface FavoriteToggleDetail {
-  recipeId: string;
-  source: RecipeSource;
-  nextActive: boolean;
 }
 
 @Component({
@@ -59,6 +54,13 @@ export class RecipeCard {
         <div class="media">
           {r.imageUrl ? <img src={r.imageUrl} alt={r.title} loading="lazy" /> : <div class="placeholder">No image</div>}
           <span class={{ badge: true, external: r.source === 'external', community: r.source === 'community' }}>{badgeLabel}</span>
+          <favorite-button
+            class="fav"
+            active={this.favorite}
+            recipeId={r.id}
+            source={r.source}
+            onFavorite-toggle={this.onFavToggle}
+          />
         </div>
         <div class="body">
           <h3 class="title">{r.title}</h3>

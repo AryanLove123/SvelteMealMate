@@ -1,6 +1,7 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 import { RecipeSource, UiRecipeSummary } from '../../type';
-import { FavoriteToggleDetail, RecipeClickDetail } from '../recipe-card/recipe-card';
+import { RecipeClickDetail } from '../recipe-card/recipe-card';
+import { FavoriteToggleDetail } from '../favorite-button/favorite-button';
 
 @Component({
   tag: 'recipe-grid',

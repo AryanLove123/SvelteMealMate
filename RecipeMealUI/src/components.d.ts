@@ -5,16 +5,20 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+import { RecipeSource, UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+import { FavoriteToggleDetail } from "./components/favorite-button/favorite-button";
 import { MealAddDetail } from "./components/meal-plan-week/meal-plan-week";
-import { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
+import { RecipeClickDetail } from "./components/recipe-card/recipe-card";
+import { FavoriteToggleDetail as FavoriteToggleDetail1 } from "./components/favorite-button/favorite-button";
 import { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
-import { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
-export { UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+import { RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
+export { RecipeSource, UiMealPlanEntry, UiRecipeFormValue, UiRecipeSummary } from "./type";
+export { FavoriteToggleDetail } from "./components/favorite-button/favorite-button";
 export { MealAddDetail } from "./components/meal-plan-week/meal-plan-week";
-export { FavoriteToggleDetail, RecipeClickDetail } from "./components/recipe-card/recipe-card";
+export { RecipeClickDetail } from "./components/recipe-card/recipe-card";
+export { FavoriteToggleDetail as FavoriteToggleDetail1 } from "./components/favorite-button/favorite-button";
 export { RecipeFilterValue } from "./components/recipe-filter/recipe-filter";
-export { FavoriteToggleDetail as FavoriteToggleDetail1, RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
+export { RecipeClickDetail as RecipeClickDetail1 } from "./components/recipe-card/recipe-card";
 export namespace Components {
     interface ConfirmationDialog {
         /**
@@ -37,6 +41,21 @@ export namespace Components {
           * @default false
          */
         "open": boolean;
+    }
+    interface FavoriteButton {
+        /**
+          * @default false
+         */
+        "active": boolean;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "recipeId": string;
+        /**
+          * @default 'external'
+         */
+        "source": RecipeSource;
     }
     interface MealPlanCard {
         "entry": UiMealPlanEntry;
@@ -159,6 +178,10 @@ export interface ConfirmationDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLConfirmationDialogElement;
 }
+export interface FavoriteButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFavoriteButtonElement;
+}
 export interface MealPlanCardCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLMealPlanCardElement;
@@ -209,6 +232,23 @@ declare global {
     var HTMLConfirmationDialogElement: {
         prototype: HTMLConfirmationDialogElement;
         new (): HTMLConfirmationDialogElement;
+    };
+    interface HTMLFavoriteButtonElementEventMap {
+        "favorite-toggle": FavoriteToggleDetail;
+    }
+    interface HTMLFavoriteButtonElement extends Components.FavoriteButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFavoriteButtonElementEventMap>(type: K, listener: (this: HTMLFavoriteButtonElement, ev: FavoriteButtonCustomEvent<HTMLFavoriteButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFavoriteButtonElementEventMap>(type: K, listener: (this: HTMLFavoriteButtonElement, ev: FavoriteButtonCustomEvent<HTMLFavoriteButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFavoriteButtonElement: {
+        prototype: HTMLFavoriteButtonElement;
+        new (): HTMLFavoriteButtonElement;
     };
     interface HTMLMealPlanCardElementEventMap {
         "meal-edit": UiMealPlanEntry;
@@ -266,7 +306,7 @@ declare global {
     };
     interface HTMLRecipeCardElementEventMap {
         "recipe-click": RecipeClickDetail;
-        "favorite-toggle": FavoriteToggleDetail;
+        "favorite-toggle": FavoriteToggleDetail1;
         "recipe-edit": RecipeClickDetail;
         "recipe-delete": RecipeClickDetail;
     }
@@ -358,6 +398,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "confirmation-dialog": HTMLConfirmationDialogElement;
+        "favorite-button": HTMLFavoriteButtonElement;
         "meal-plan-card": HTMLMealPlanCardElement;
         "meal-plan-week": HTMLMealPlanWeekElement;
         "modal-dialog": HTMLModalDialogElement;
@@ -369,6 +410,8 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K]?: never };
+
     interface ConfirmationDialog {
         /**
           * @default 'Cancel'
@@ -392,6 +435,22 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+    }
+    interface FavoriteButton {
+        /**
+          * @default false
+         */
+        "active"?: boolean;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "onFavorite-toggle"?: (event: FavoriteButtonCustomEvent<FavoriteToggleDetail>) => void;
+        "recipeId": string;
+        /**
+          * @default 'external'
+         */
+        "source"?: RecipeSource;
     }
     interface MealPlanCard {
         "entry": UiMealPlanEntry;
@@ -423,7 +482,7 @@ declare namespace LocalJSX {
           * @default false
          */
         "favorite"?: boolean;
-        "onFavorite-toggle"?: (event: RecipeCardCustomEvent<FavoriteToggleDetail>) => void;
+        "onFavorite-toggle"?: (event: RecipeCardCustomEvent<FavoriteToggleDetail1>) => void;
         "onRecipe-click"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
         "onRecipe-delete"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
         "onRecipe-edit"?: (event: RecipeCardCustomEvent<RecipeClickDetail>) => void;
@@ -535,6 +594,12 @@ declare namespace LocalJSX {
         "confirmLabel": string;
         "cancelLabel": string;
     }
+    interface FavoriteButtonAttributes {
+        "active": boolean;
+        "recipeId": string;
+        "source": RecipeSource;
+        "disabled": boolean;
+    }
     interface ModalDialogAttributes {
         "open": boolean;
     }
@@ -566,6 +631,7 @@ declare namespace LocalJSX {
 
     interface IntrinsicElements {
         "confirmation-dialog": Omit<ConfirmationDialog, keyof ConfirmationDialogAttributes> & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes]?: ConfirmationDialog[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `attr:${K}`]?: ConfirmationDialogAttributes[K] } & { [K in keyof ConfirmationDialog & keyof ConfirmationDialogAttributes as `prop:${K}`]?: ConfirmationDialog[K] };
+        "favorite-button": Omit<FavoriteButton, keyof FavoriteButtonAttributes> & { [K in keyof FavoriteButton & keyof FavoriteButtonAttributes]?: FavoriteButton[K] } & { [K in keyof FavoriteButton & keyof FavoriteButtonAttributes as `attr:${K}`]?: FavoriteButtonAttributes[K] } & { [K in keyof FavoriteButton & keyof FavoriteButtonAttributes as `prop:${K}`]?: FavoriteButton[K] } & OneOf<"recipeId", FavoriteButton["recipeId"], FavoriteButtonAttributes["recipeId"]>;
         "meal-plan-card": MealPlanCard;
         "meal-plan-week": MealPlanWeek;
         "modal-dialog": Omit<ModalDialog, keyof ModalDialogAttributes> & { [K in keyof ModalDialog & keyof ModalDialogAttributes]?: ModalDialog[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `attr:${K}`]?: ModalDialogAttributes[K] } & { [K in keyof ModalDialog & keyof ModalDialogAttributes as `prop:${K}`]?: ModalDialog[K] };
@@ -581,6 +647,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "confirmation-dialog": LocalJSX.IntrinsicElements["confirmation-dialog"] & JSXBase.HTMLAttributes<HTMLConfirmationDialogElement>;
+            "favorite-button": LocalJSX.IntrinsicElements["favorite-button"] & JSXBase.HTMLAttributes<HTMLFavoriteButtonElement>;
             "meal-plan-card": LocalJSX.IntrinsicElements["meal-plan-card"] & JSXBase.HTMLAttributes<HTMLMealPlanCardElement>;
             "meal-plan-week": LocalJSX.IntrinsicElements["meal-plan-week"] & JSXBase.HTMLAttributes<HTMLMealPlanWeekElement>;
             "modal-dialog": LocalJSX.IntrinsicElements["modal-dialog"] & JSXBase.HTMLAttributes<HTMLModalDialogElement>;

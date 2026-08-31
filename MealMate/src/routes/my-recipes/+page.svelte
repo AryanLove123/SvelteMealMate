@@ -82,5 +82,30 @@
   .head{
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .head h1{
+    margin: 0 0 0.25rem;
+  }
+
+  .subtitle{
+    color: var(--muted);
+    margin:0;
+    max-width: 40rem;
+  }
+
+  .btn.primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-top: 0.5rem;
   }
 </style>

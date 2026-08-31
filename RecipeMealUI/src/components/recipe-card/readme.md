@@ -31,9 +31,14 @@
 
  - [recipe-grid](../recipe-grid)
 
+### Depends on
+
+- [favorite-button](../favorite-button)
+
 ### Graph
 ```mermaid
 graph TD;
+  recipe-card --> favorite-button
   recipe-grid --> recipe-card
   style recipe-card fill:#f9f,stroke:#333,stroke-width:4px
 ```

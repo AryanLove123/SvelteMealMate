@@ -1,5 +1,5 @@
 import { loginInputSchema } from "../../lib/schemas/recipe.ts";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types.js";
 import { findOrCreateUser, setSessionCookie } from "../../lib/server/services/session.ts";
 
@@ -17,5 +17,6 @@ export const actions: Actions = {
 
         const user = await findOrCreateUser(parsed.data.username);
         setSessionCookie(cookies, user.id);
+        throw redirect(303, '/');
     }
 }

@@ -120,7 +120,7 @@ export class RecipeForm {
                 this.updateField('category', (e.target as HTMLSelectElement).value);
               }}
             >
-              <option value="" disabled>
+              <option value="" disabled selected={!this.form.category}>
                 Select a category
               </option>
               {categoryOptions.map(c => (
@@ -135,7 +135,7 @@ export class RecipeForm {
           <label>
             <span>Area / Cuisine</span>
             <select onInput={(e: Event) => this.updateField('area', (e.target as HTMLSelectElement).value)}>
-              <option value="">Unspecified</option>
+              <option value="" selected={!this.form.area}>Select an area</option>
               {areaOptions.map(a => (
                 <option value={a} selected={a === this.form.area}>
                   {a}

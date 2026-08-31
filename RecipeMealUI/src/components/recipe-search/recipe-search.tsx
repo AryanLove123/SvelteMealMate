@@ -11,6 +11,7 @@ export class RecipeSearch {
   @Prop() debounce: number = 350;
 
   @State() internalValue: string = '';
+  private isFocused: boolean = false;
 
   @Event({ eventName: 'search' }) search!: EventEmitter<string>;
 
@@ -22,7 +23,9 @@ export class RecipeSearch {
 
   @Watch('value')
   onValuePropChange(newVal: string) {
-    this.internalValue = newVal;
+    if (!this.isFocused) {
+      this.internalValue = newVal;
+    }
   }
 
   private onInput = (e: InputEvent) => {
@@ -49,6 +52,8 @@ export class RecipeSearch {
           value={this.internalValue}
           placeholder={this.placeholder}
           onInput={this.onInput}
+          onFocus={() => (this.isFocused = true)}
+          onBlur={() => (this.isFocused = false)}
           aria-label="Search recipes"
         />
       </form>

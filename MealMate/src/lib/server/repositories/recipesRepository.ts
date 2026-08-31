@@ -251,3 +251,40 @@ export async function createCommunityRecipe(input: RecipeInput, createdBy: strin
   await col.insertOne(doc);
   return toRecipe(doc);
 }
+
+export async function updateCommunityRecipe(
+  id: string,
+  username: string,
+  input:RecipeInput
+): Promise<Recipe | null | 'forbidden'>{
+  const col = await getCollection<RecipeDoc>(COLLECTIONS.recipes);
+  const existing = await col.findOne({_id: id});
+  if(!existing) return null;
+  if(existing.createdBy != username) return 'forbidden';
+
+  const now  = new Date().toISOString();
+  const update: Partial<RecipeDoc> = {
+    title: input.title,
+    description: input.description ?? '',
+    imageUrl: input.imageUrl ?? '',
+    category: input.category,
+    area: input.area ?? '',
+    ingredients: input.ingredients,
+    instructions: input.instructions,
+    updatedAt: now,
+  }
+
+  await col.updateOne({ _id: id }, { $set: update });
+  return toRecipe({ ...existing, ...update } as RecipeDoc);
+}
+
+export async function deleteCommunityRecipe(id: string, username: string): Promise<'deleted' | 'not-found' | 'forbidden'>{
+  const col = await getCollection<RecipeDoc>(COLLECTIONS.recipes);
+  const existing = await col.findOne({_id: id});
+
+  if(!existing) return 'not-found';
+  if(existing.createdBy != username) return 'forbidden';
+
+  await col.deleteOne({_id:id});
+  return 'deleted';
+}

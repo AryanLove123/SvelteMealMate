@@ -29,6 +29,12 @@ html,body{
   font-family: var(--font);
 }
 
+.container{
+  margin: 0 4rem;
+  padding: 0 1.25rem;
+}
+
+
 .badge-pill {
   display: inline-flex;
   align-items: center;

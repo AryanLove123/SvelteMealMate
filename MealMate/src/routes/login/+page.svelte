@@ -45,7 +45,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 1.5rem;
   }
 
   .subtitle {

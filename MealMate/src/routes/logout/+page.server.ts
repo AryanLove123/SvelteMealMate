@@ -10,6 +10,6 @@ export const load: PageServerLoad = async ({cookies}) =>{
 export const actions: Actions = {
     default: async({cookies}) =>{
         clearSessionCookie(cookies);
-        throw redirect(303,'/api/login');
+        throw redirect(303,'/login');
     }
 }
