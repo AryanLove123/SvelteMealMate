@@ -47,7 +47,7 @@
 	],
 	"dependencies": {
 		"mongodb": "^7.5.0",
-		"recipemealui": "file:../recipemealui-0.0.1.tgz",
+		"recipemealui": "^0.0.1",
 		"uuid": "^14.0.2",
 		"zod": "^4.4.3"
 	}
