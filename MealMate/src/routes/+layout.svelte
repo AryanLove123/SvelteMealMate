@@ -1,16 +1,6 @@
 <script lang="ts">
   import "../app.css";
-  import { browser } from "$app/environment";
   import { page } from "$app/stores";
-
-  if (browser) {
-    import("recipemealui/loader").then((loader: any) => {
-      if (typeof loader.setAssetPath === "function") {
-        loader.setAssetPath(window.location.origin + "/recipemealui/");
-      }
-      loader.defineCustomElements(window);
-    });
-  }
 
   let { children, data } = $props();
   const navLinks = [

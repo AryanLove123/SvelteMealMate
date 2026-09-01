@@ -2,9 +2,8 @@
 	"name": "mealmate",
 	"version": "0.0.1",
 	"scripts": {
-		"copy-assets": "shx cp -r node_modules/recipemealui/dist static/recipemealui",
-		"dev": "npm run copy-assets && vite dev",
-		"build": "npm run copy-assets && vite build",
+		"dev": "vite dev",
+		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"prepack": "svelte-kit sync && svelte-package && publint",
