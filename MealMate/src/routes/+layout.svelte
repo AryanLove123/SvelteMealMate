@@ -1,6 +1,26 @@
 <script lang="ts">
   import "../app.css";
   import { page } from "$app/stores";
+  import { onMount, setContext } from 'svelte';
+
+  let stencilReady = $state(false);
+  setContext('stencilReady', () => stencilReady);
+
+  onMount(() => {
+    const tags = new Set<string>();
+    document.querySelectorAll('*').forEach((el) => {
+      if (el.tagName.includes('-')) tags.add(el.tagName.toLowerCase());
+    });
+    // console.log('Waiting for these custom elements to register:', [...tags]);
+
+    const allDefined = Promise.all([...tags].map((tag) => customElements.whenDefined(tag)));
+    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
+    Promise.race([allDefined, timeout]).then(() => {
+      // console.log('Proceeding to render');
+      stencilReady = true;
+    });
+  });
 
   let { children, data } = $props();
   const navLinks = [
@@ -16,9 +36,7 @@
     <div class="container navbar-inner">
       <nav>
         {#each navLinks as link}
-          <a href={link.href} class:active={$page.url.pathname === link.href}
-            >{link.label}</a
-          >
+          <a href={link.href} class:active={$page.url.pathname === link.href}>{link.label}</a>
         {/each}
       </nav>
       <div class="account">
@@ -33,8 +51,13 @@
       </div>
     </div>
   </header>
+
   <main class="container page">
-    {@render children()}
+    {#if stencilReady}
+      {@render children()}
+    {:else}
+      <p style="padding: 2rem; text-align: center; color: #888;">Loading…</p>
+    {/if}
   </main>
 
   <footer class="app-footer">
@@ -51,30 +74,17 @@
         rel="noopener noreferrer"
         class="footer-link"
       >
-        <svg
-          viewBox="0 0 16 16"
-          width="14"
-          height="14"
-          fill="currentColor"
-          aria-hidden="true"
-        >
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
           <path
             d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
-
-						0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
-
-						1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
-
-						0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18
-
-						1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
-
-						.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
-
-						0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+            1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+            0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18
+            1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+            .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+            0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
           />
         </svg>
-
         Source Code
       </a>
     </div>
@@ -154,92 +164,58 @@
   }
 
   .app-footer {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    border-top: 1px solid #fff;
+    background: white;
+  }
 
-		flex-shrink: 0;
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.85rem;
+  }
 
-		padding: 14px 20px;
+  .footer-brand {
+    font-weight: 700;
+  }
 
-		border-top: 1px solid #fff;
+  .footer-credit strong {
+    color: var(--accent);
+  }
 
-		background: white;
+  .footer-divider {
+    color: #e5dad0;
+  }
 
-	}
- 
-	.footer-inner {
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #2d2a26;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid #f0e6de;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
 
-		display: flex;
+  .footer-link:hover {
+    background: #fff9f5;
+    border-color: #ff6b4a;
+  }
 
-		align-items: center;
+  .app-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
 
-		justify-content: center;
-
-		flex-wrap: wrap;
-
-		gap: 10px;
-
-		font-size: 0.85rem;
-
-	}
- 
-	.footer-brand {
-		font-weight: 700;
-	}
- 
-	.footer-credit strong {
-
-		color: var(--accent);
-
-	}
- 
-	.footer-divider {
-		color: #E5DAD0;
-	}
- 
-	.footer-link {
-
-		display: inline-flex;
-
-		align-items: center;
-
-		gap: 5px;
-
-		color: #2D2A26;
-
-		text-decoration: none;
-
-		font-weight: 600;
-
-		padding: 4px 10px;
-
-		border-radius: 999px;
-
-		border: 1px solid #F0E6DE;
-
-		transition: background 0.15s ease, border-color 0.15s ease;
-
-	}
- 
-	.footer-link:hover {
-
-		background: #FFF9F5;
-
-		border-color: #FF6B4A;
-
-	}
- 
-	.app-footer a {
-
-		color: var(--accent);
-
-		text-decoration: none;
-
-		font-weight: 600;
-
-	}
- 
-	.app-footer a:hover {
-
-		text-decoration: underline;
-
-	}
+  .app-footer a:hover {
+    text-decoration: underline;
+  }
 </style>
